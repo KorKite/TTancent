@@ -22,4 +22,10 @@ class scoreDB(Databases):
         pass
 
     def generate_class(self,schema,table,colum,data):
+
+
+
+
+
+        
         pass
