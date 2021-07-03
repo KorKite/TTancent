@@ -21,12 +21,5 @@ class scoreDB(Databases):
     def search_user_subject(self,schema,table,colum,data):
         pass
 
-    def generate_class(self,schema,table,colum,data):
-
-
-
-
-
-
-        
+    def generate_class(self,schema,table,colum,data):        
         pass

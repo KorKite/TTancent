@@ -1,4 +1,5 @@
 from database import Databases
+import pandas as pd
 
 class userDB(Databases):
     def __init__(self):
@@ -6,11 +7,9 @@ class userDB(Databases):
         self.table = "userinfo"
 
     def signin(self):
-        print(self.db)
         query = "SELECT * FROM CLASS"
-        rows = self.execute(query)
-        self.commit()
-        print(rows)
+        row = self.execute(query)
+        print(row)
 
     def user_search(self,schema,table,colum,data):
         pass
