@@ -7,8 +7,10 @@ class userDB(Databases):
         self.table = "userinfo"
 
     def signin(self, userid, username, password, prof, email):
-        query = f"INSERT INTO userinfo (UserId, UserName, UserPassword, IsProf, UserEmail) VALUES ('{userid}', '{username}', '{password}', '{prof}', '{email}');"
-        self.execute(query)
+        query = "INSERT INTO userinfo(userid, username, userpassword, isprof, useremail) VALUES (%s, %s, %s, %s, %s) RETURNING userid"
+        stock_data=(userid, username, password, prof, email)
+        row = self.execute(query, stock_data)
+        self.commit()
 
     def user_search_by_id(self,userid):
         query = f"SELECT * FROM userinfo WHERE userid = '{userid}'; "
