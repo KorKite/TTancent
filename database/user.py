@@ -6,14 +6,15 @@ class userDB(Databases):
         super().__init__()
         self.table = "userinfo"
 
-    def signin(self):
-        query = "SELECT * FROM CLASS"
-        row = self.execute(query)
-        print(row)
+    def signin(self, userid, username, password, prof, email):
+        query = f"INSERT INTO userinfo (UserId, UserName, UserPassword, IsProf, UserEmail) VALUES ('{userid}', '{username}', '{password}', '{prof}', '{email}');"
+        self.execute(query)
 
-    def user_search(self,schema,table,colum,data):
-        pass
+    def user_search_by_id(self,userid):
+        query = f"SELECT * FROM userinfo WHERE userid = '{userid}'; "
+        row = self.execute_getlow(query)
+        print(row)
 
 if __name__ == "__main__":
     udb = userDB()
-    udb.signin()
+    udb.signin(userid = "sta01", username="InsuKim", password="df30fsj!ef", prof=True, email = "stae@dfjn.com")

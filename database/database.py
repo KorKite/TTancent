@@ -9,10 +9,11 @@ class Databases():
         self.db.close()
         self.cursor.close()
 
-    def execute(self,query,args={}):
+    def execute_getlow(self,query,args={}):
         self.cursor.execute(query,args)
         row = self.cursor.fetchall()
         return row
 
-    def commit(self):
-        self.cursor.commit()
+    def execute(self,query,args={}):
+        self.cursor.execute(query,args)
+        self.cursor.commit()        
