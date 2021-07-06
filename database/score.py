@@ -10,16 +10,34 @@ class scoreDB(Databases):
         self.user_subject_rel = "user_subject"
 
     def search_AVG(self,schema,table,colum,data):
+        """ 
+            
+        """
         pass
 
     def search_realtime(self,schema,table,colum,data):
+        """
+        
+        """
         pass
 
-    def search_subject(self,schema,table,colum,data):
+    def search_subject(self, classid):
+        """
+        해당 과목이 존재하는지 여부를 반환
+        return: True, False
+        """
         pass
 
-    def search_user_subject(self,schema,table,colum,data):
+    def search_user_subject(self, userid, classid):
+        """
+        유저의 과목별 점수를 검색
+        return : 점수 (INT)
+        """
         pass
 
-    def generate_class(self,schema,table,colum,data):        
+    def generate_class(self,generatorid):   
+        """
+        수업 생성자 id를 받아서, 임의의 classid를 부여하고, 그것으로 수업 생성
+        return : None
+        """     
         pass
