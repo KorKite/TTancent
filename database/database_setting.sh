@@ -15,8 +15,8 @@ create table USERINFO(
 
 # class 테이블 생성 (수업 관련 내용)
 create table class (
-    classid character(10) primary key,
-    generatorid character(10) constraint userid references userinfo,
+    classid varying(10) primary key,
+    generatorid character varying(10) constraint userid references userinfo,
     classname character varying(24) unique not null,
     isOpen boolean
 );
