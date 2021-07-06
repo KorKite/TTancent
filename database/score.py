@@ -17,10 +17,10 @@ class scoreDB(Databases):
 
     def search_Rank(self):
         """
-        유저별 평균을 묶어서 반환
+        유저별 평균을 묶어서 반환, groupby로 유저 묶고, 해당 그룹의 평균 값을 리턴
         return: 평균 묶어서 반환한 값 
         """
-        
+        query = "SELECT userid AVG(score) FROM user_class_rel GROUP BY userid"
 
 
     def search_subject(self, classid):
