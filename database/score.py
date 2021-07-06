@@ -11,15 +11,17 @@ class scoreDB(Databases):
 
     def search_AVG(self,schema,table,colum,data):
         """ 
-            
-        """
-        pass
-
-    def search_realtime(self,schema,table,colum,data):
-        """
         
         """
         pass
+
+    def search_Rank(self):
+        """
+        유저별 평균을 묶어서 반환
+        return: 평균 묶어서 반환한 값 
+        """
+        
+
 
     def search_subject(self, classid):
         """
