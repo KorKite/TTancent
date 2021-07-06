@@ -15,4 +15,4 @@ class Databases():
         return row
 
     def commit(self):
-        self.cursor.commit()
+        self.db.commit()
