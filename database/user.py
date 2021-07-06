@@ -16,9 +16,12 @@ class userDB(Databases):
         self.commit()
 
 
-    def user_search(self,schema,table,colum,data):
-        pass
+
+    def user_search_by_id(self,userid):
+        query = f"SELECT * FROM userinfo WHERE userid = '{userid}'; "
+        row = self.execute_getlow(query)
+        print(row)
 
 if __name__ == "__main__":
     udb = userDB()
-    udb.signin()
+    udb.signin(userid = "sta01", username="InsuKim", password="df30fsj!ef", prof=True, email = "stae@dfjn.com")
