@@ -11,7 +11,7 @@ class scoreDB(Databases):
 
     def search_AVG(self,schema,table,colum,data):
         """ 
-        
+        유저의 평균 반환
         """
         pass
 
@@ -27,6 +27,12 @@ class scoreDB(Databases):
         """
         해당 과목이 존재하는지 여부를 반환
         return: True, False
+        """
+        pass
+
+    def write_user_score(self, userid, score):
+        """
+        유저의 점수를 기록
         """
         pass
 
