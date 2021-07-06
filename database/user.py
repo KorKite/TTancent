@@ -21,6 +21,7 @@ class userDB(Databases):
     def user_password_get(self,userid):
         query = f"SELECT userpassword FROM userinfo WHERE userid = '{userid}'; "
         row = self.execute(query)[0][0]
+        
         print(row)
 
 
