@@ -1,5 +1,6 @@
 from database import Databases
 import uuid
+import datetime
 
 class scoreDB(Databases):
     def __init__(self):
@@ -30,22 +31,41 @@ class scoreDB(Databases):
         """
         pass
 
-    def write_user_score(self, userid, score):
+    def write_user_score(self, userid, classid, score):
         """
         유저의 점수를 기록
         """
-        pass
+        # id = ""
+        # createdAt = time.localtime(time.time())
+        query = "INSERT INTO user_class_rel(id, userid, classid, score, createdAt) VALUES (nextval('score_id'), %s, %s, %s, NOW()) RETURNING classid"
+        stocked = (userid, classid, score)
+        row = self.execute(query, stocked)
+        print(row)
+        self.commit()
 
     def search_user_subject(self, userid, classid):
         """
         유저의 과목별 점수를 검색
         return : 점수 (INT)
         """
-        pass
+        query = f"SELECT score FROM  user_class_rel WHERE userid = '{userid}' AND classid = '{classid}';"
+        row = self.execute(query)
+        print(row)
 
-    def generate_class(self,generatorid):   
+    def generate_class(self, generatorid, classname):   
         """
-        수업 생성자 id를 받아서, 임의의 classid를 부여하고, 그것으로 수업 생성
+        수업 생성자 id, 수업 이름을 받아서, 임의의 classid를 부여하고, 그것으로 수업 생성
         return : None
         """     
-        pass
+        # classid = ""
+        query = "INSERT INTO class(classid, generatorid, classname, isopen) VALUES (nextval('class_id'), %s, %s, %s) RETURNING classid"
+        stocked = (generatorid, classname, '1')
+        row = self.execute(query, stocked)
+        print(row)
+        self.commit()
+        
+
+if __name__ == "__main__":
+    udb = scoreDB()
+    # udb.signin(userid = "sta03", username="Injei", password="fef!3f2", prof=False, email = "sta5e@dfjn.com")
+    udb.search_user_subject("sta02", 6)

@@ -26,5 +26,5 @@ class userDB(Databases):
 
 if __name__ == "__main__":
     udb = userDB()
-    # udb.signin(userid = "sta03", username="Injei", password="fef!3f2", prof=False, email = "sta5e@dfjn.com")
-    udb.user_password_get("sta01")
+    udb.signin(userid = "sta02", username="김아무개", password="fef!3f2", prof=False, email = "sta5ez1@dfjn.com")
+    # udb.user_password_get("sta01")

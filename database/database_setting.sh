@@ -4,6 +4,11 @@ create database focus
 # 만든 Database 선택
 \c focus
 
+#수업의 고유번호 생성
+create sequence 'class_id' start 1;
+#유저 수업별 점수의 고유 번호 생성
+create sequence 'score_id' start 1;
+
 # Userinfo 테이블 생성
 create table USERINFO(
     UserId character(12) primary key,
@@ -15,7 +20,7 @@ create table USERINFO(
 
 # class 테이블 생성 (수업 관련 내용)
 create table class (
-    classid varying(10) primary key,
+    classid integer primary key,
     generatorid character varying(10) constraint userid references userinfo,
     classname character varying(24) unique not null,
     isOpen boolean
@@ -23,9 +28,9 @@ create table class (
 
 # user_class_rel 테이블 생성 (유저의 수업별, 그냥 점수 기록)
 create table user_class_rel(
-    id character(10) primary key,
+    id integer primary key,
     userid character(10) constraint userid references userinfo,
-    classid character(10) constraint classid references class,
+    classid integer constraint classid references class,
     score bigint not null,
     createdAt date not null
 );
