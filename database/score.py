@@ -35,10 +35,10 @@ class scoreDB(Databases):
         """
         유저의 점수를 기록
         """
-        # id = ""
         # createdAt = time.localtime(time.time())
-        query = "INSERT INTO user_class_rel(id, userid, classid, score, createdAt) VALUES (nextval('score_id'), %s, %s, %s, NOW()) RETURNING classid"
-        stocked = (userid, classid, score)
+        id = str(uuid.uuid4().hex)
+        query = "INSERT INTO user_class_rel(id, userid, classid, score, createdAt) VALUES (%s, %s, %s, %s, NOW()) RETURNING id"
+        stocked = (id, userid, classid, score)
         row = self.execute(query, stocked)
         print(row)
         self.commit()
@@ -57,9 +57,9 @@ class scoreDB(Databases):
         수업 생성자 id, 수업 이름을 받아서, 임의의 classid를 부여하고, 그것으로 수업 생성
         return : None
         """     
-        # classid = ""
-        query = "INSERT INTO class(classid, generatorid, classname, isopen) VALUES (nextval('class_id'), %s, %s, %s) RETURNING classid"
-        stocked = (generatorid, classname, '1')
+        classid = str(uuid.uuid4().hex)
+        query = "INSERT INTO class(classid, generatorid, classname, isopen) VALUES (%s, %s, %s, %s) RETURNING classid"
+        stocked = (classid, generatorid, classname, '1')
         row = self.execute(query, stocked)
         print(row)
         self.commit()
@@ -67,5 +67,6 @@ class scoreDB(Databases):
 
 if __name__ == "__main__":
     udb = scoreDB()
-    # udb.signin(userid = "sta03", username="Injei", password="fef!3f2", prof=False, email = "sta5e@dfjn.com")
-    udb.search_user_subject("sta02", 6)
+    # udb.generate_class("bda48481a435408cbbc9e02d9eff8c95", "과학")
+    # udb.write_user_score('dc39cf119fb94f81bbad580782463dd2', 'da8beceade2345ae94fcd855be382bae', '100')
+    udb.search_user_subject("dc39cf119fb94f81bbad580782463dd2", "da8beceade2345ae94fcd855be382bae")

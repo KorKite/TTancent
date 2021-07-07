@@ -1,4 +1,5 @@
 from database import Databases
+import uuid
 # import pandas as pd
 
 class userDB(Databases):
@@ -6,7 +7,8 @@ class userDB(Databases):
         super().__init__()
         self.table = "userinfo"
 
-    def signin(self,userid , username, password, prof, email):
+    def signin(self, username, password, prof, email):
+        userid = str(uuid.uuid4().hex)
         query = "INSERT INTO userinfo(userid, username, userpassword, isprof, useremail) VALUES (%s, %s, %s, %s, %s) RETURNING userid"
         stocked = (userid , username, password, prof, email)
         row = self.execute(query, stocked)
@@ -26,5 +28,6 @@ class userDB(Databases):
 
 if __name__ == "__main__":
     udb = userDB()
-    udb.signin(userid = "sta02", username="김아무개", password="fef!3f2", prof=False, email = "sta5ez1@dfjn.com")
+    udb.signin(username="가나다", password="fef!3f2", prof=False, email = "sta5ez1@dfjn.com")
+    udb.signin(username="다나가", password="fef!3f2", prof=True, email = "sta1@dfjn.com")
     # udb.user_password_get("sta01")
