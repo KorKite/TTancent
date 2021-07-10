@@ -10,18 +10,29 @@ class scoreDB(Databases):
         self.subject_name_table = "subject"
         self.user_subject_rel = "user_subject"
 
-    def search_AVG(self,schema,table,colum,data):
+    def return_all(self):
+        query = "SELECT * FROM user_class_rel"
+        row = self.execute(query)
+        print(row)
+
+
+    def search_AVG(self,userid):
         """ 
         유저의 평균 반환
         """
-        pass
+        query = f"SELECT userid, AVG(score) FROM user_class_rel WHERE userid = '{userid}'"
+        row = self.execute(query)
+        print(row)
+
 
     def search_Rank(self):
         """
         유저별 평균을 묶어서 반환, groupby로 유저 묶고, 해당 그룹의 평균 값을 리턴
         return: 평균 묶어서 반환한 값 
         """
-        query = "SELECT userid AVG(score) FROM user_class_rel GROUP BY userid ORDER BY AVG(score) DESC"
+        query = "SELECT userid, AVG(score) FROM user_class_rel GROUP BY userid ORDER BY AVG(score) DESC"
+        row = self.execute(query)
+        print(row)
 
 
     def search_subject(self, classid):
@@ -29,7 +40,9 @@ class scoreDB(Databases):
         해당 과목이 존재하는지 여부를 반환
         return: True, False
         """
-        pass
+        query = f"SELECT * FROM class where classid = '{classid}'"
+        row = self.execute(query)
+        print(row)
 
     def write_user_score(self, userid, classid, score):
         """
@@ -69,4 +82,5 @@ if __name__ == "__main__":
     udb = scoreDB()
     # udb.generate_class("bda48481a435408cbbc9e02d9eff8c95", "과학")
     # udb.write_user_score('dc39cf119fb94f81bbad580782463dd2', 'da8beceade2345ae94fcd855be382bae', '100')
-    udb.search_user_subject("dc39cf119fb94f81bbad580782463dd2", "da8beceade2345ae94fcd855be382bae")
+    # udb.search_user_subject("dc39cf119fb94f81bbad580782463dd2", "da8beceade2345ae94fcd855be382bae")
+    udb.return_all()
