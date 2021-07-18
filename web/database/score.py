@@ -65,6 +65,14 @@ class scoreDB(Databases):
         row = self.execute(query)
         print(row)
 
+    # def search_user_subject(self, classid):
+    #     """
+    #     수업을 들은 유저들을 모아서 유저들의 평균을 내서 보여준다. (새로 짜기)
+    #     """
+    #     query = f"SELECT score FROM  user_class_rel WHERE classid = '{classid}';"
+    #     row = self.execute(query)
+    #     print(row)
+
     def generate_class(self, generatorid, classname):   
         """
         수업 생성자 id, 수업 이름을 받아서, 임의의 classid를 부여하고, 그것으로 수업 생성
