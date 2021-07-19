@@ -12,7 +12,8 @@ def index():
     """
     rank 보여주기, 다른 곳으로 링킹하는 링크버튼을 쭉 보여주기
     """
-    return "Hello World"
+
+    return render_template("index.html")
 
 @app.route("/search")
 def search():
