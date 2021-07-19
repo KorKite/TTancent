@@ -4,10 +4,6 @@ create database focus
 # 만든 Database 선택
 \c focus
 
-# #수업의 고유번호 생성
-# create sequence 'class_id' start 1;
-# #유저 수업별 점수의 고유 번호 생성
-# create sequence 'score_id' start 1;
 
 # Userinfo 테이블 생성
 create table USERINFO(

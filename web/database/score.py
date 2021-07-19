@@ -25,7 +25,7 @@ class scoreDB(Databases):
         print(row)
 
 
-    def search_Rank(self):
+    def user_Rank(self):
         """
         유저별 평균을 묶어서 반환, groupby로 유저 묶고, 해당 그룹의 평균 값을 리턴
         return: 평균 묶어서 반환한 값 
@@ -34,15 +34,47 @@ class scoreDB(Databases):
         row = self.execute(query)
         print(row)
 
-
-    def search_subject(self, classid):
+    def class_Rank(self):
         """
+        과목별 평균을 묶어서 반환, groupby로 유저 묶고, 해당 그룹의 평균 값을 리턴
+        return: 평균 묶어서 반환한 값 
+        """
+        query = "SELECT classid, AVG(score) FROM user_class_rel GROUP BY classid ORDER BY AVG(score) DESC"
+        row = self.execute(query)
+        print(row)
+
+
+
+    def search_subject_classid(self, classid):
+        """
+        과목id
         해당 과목이 존재하는지 여부를 반환
         return: True, False
         """
         query = f"SELECT * FROM class where classid = '{classid}'"
         row = self.execute(query)
         print(row)
+
+    def search_subject_professor(self, generatorid):
+        """
+        교수 id
+        해당 과목이 존재하는지 여부를 반환
+        return: True, False
+        """
+        query = f"SELECT * FROM class where generatorid = '{generatorid}'"
+        row = self.execute(query)
+        print(row)
+
+    def search_subject_classname(self, classname):
+        """
+        과목명
+        해당 과목이 존재하는지 여부를 반환
+        return: True, False
+        """
+        query = f"SELECT * FROM class where classname = '{classname}'"
+        row = self.execute(query)
+        print(row)
+
 
     def write_user_score(self, userid, classid, score):
         """
@@ -65,13 +97,14 @@ class scoreDB(Databases):
         row = self.execute(query)
         print(row)
 
-    # def search_user_subject(self, classid):
-    #     """
-    #     수업을 들은 유저들을 모아서 유저들의 평균을 내서 보여준다. (새로 짜기)
-    #     """
-    #     query = f"SELECT score FROM  user_class_rel WHERE classid = '{classid}';"
-    #     row = self.execute(query)
-    #     print(row)
+    def subject_AVG(self, classid):
+        """
+        수업을 들은 유저들을 모아서 유저들의 평균을 내서 보여준다. (새로 짜기)
+        """
+        query = f"SELECT classid, avg(score) FROM  user_class_rel WHERE classid = '{classid}';"
+        row = self.execute(query)
+
+        print(row)
 
     def generate_class(self, generatorid, classname):   
         """
@@ -88,7 +121,4 @@ class scoreDB(Databases):
 
 if __name__ == "__main__":
     udb = scoreDB()
-    # udb.generate_class("bda48481a435408cbbc9e02d9eff8c95", "과학")
-    # udb.write_user_score('dc39cf119fb94f81bbad580782463dd2', 'da8beceade2345ae94fcd855be382bae', '100')
-    # udb.search_user_subject("dc39cf119fb94f81bbad580782463dd2", "da8beceade2345ae94fcd855be382bae")
     udb.return_all()
