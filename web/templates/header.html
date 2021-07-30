@@ -1,13 +1,13 @@
-    <div class="p-2 w-full justify-between border b-3 shadow-md fixed flex">
+    <div class="p-2 w-full justify-between border b-3 shadow-md fixed flex bg-white">
         <div class="pl-10">
-            <img class="h-14" src="{{url_for('static', filename='img/main.png')}}" alt="main logo" >
+            <a href="{{url_for('index')}}"><img class="h-14" src="{{url_for('static', filename='img/main.png')}}" alt="main logo" ></a>
         </div>
         <div class="flex pr-5">
-            <div class="p-5">
-                <p class="font-bold	">회원가입</p>
-            </div>
-            <div class="p-5">
-                <p class="font-bold	">로그인</p>
-            </div>
+            <a href="{{url_for('signin')}}"><div class="p-5">
+                <p class="font-bold	hover:text-blue-800">회원가입</p>
+            </div></a>
+            <a href="{{url_for('login')}}"><div class="p-5">
+                <p class="font-bold	hover:text-blue-800">로그인</p>
+            </div></a>
         </div>
     </div>

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div class="min-h-screen min-w-screen flex items-center justify-center bg-gray-100">
+    <div class="flex flex-col shadow-xl">
+      <div class="py-6 px-14 bg-gradient-to-tr from-blue-900 to-blue-600 rounded-tl-2xl rounded-tr-2xl text-center space-y-8">
+        <h2 class="text-white text-xs uppercase">딴집중, 수업 생성하기</h2>
+        <h4 class="text-white text-center font-bold text-xl">
+          집중력이 향상된 수업을 하고 싶다면<br />
+          지금 수업을 생성하세요.
+        </h4>
+      </div>
+      <div class="m-12">
+        <div class="grid grid-cols-2 ">
+          <p class="px-4 font-semibold py-2">생성된 코드</p>
+          <p class="px-4 py-2">{{info.classid}}</p>
+        </div>
+        <div class="grid grid-cols-2 ">
+          <p class="px-4 font-semibold py-2">수업명</p>
+          <p class="px-4 py-2">{{info.classname}}</p>
+        </div>
+        <div class="grid grid-cols-2 ">
+          <p class="px-4 font-semibold py-2">수업 생성자</p>
+          <p class="px-4 py-2">{{info.generator}}</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock body %}

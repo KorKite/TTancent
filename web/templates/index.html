@@ -1,20 +1,57 @@
 {% extends "base.html" %}
-<div>
-    <div class="min-w-screen min-h-screen bg-gray-800 flex items-center justify-center px-5 py-5">
-        <div class="w-full mx-auto rounded-xl bg-gray-100 shadow-lg p-10 text-gray-800 relative overflow-hidden resize-x min-w-80 max-w-3xl" x-data="app()" x-init="generatePassword()">
-            <div class="relative mt-1">
-                <input type="text" id="password" class="w-full pl-3 pr-10 py-2 border-2 border-gray-200 rounded-xl hover:border-gray-300 focus:outline-none focus:border-blue-500 transition-colors" placeholder="Search...">
-                <button class="block w-7 h-7 text-center text-xl leading-0 absolute top-2 right-2 text-gray-400 focus:outline-none hover:text-gray-900 transition-colors"><i class="mdi mdi-magnify"></i></button>
-            </div>
-            <div class="absolute top-0 left-0 w-full h-2 flex">
-                <div class="h-2 bg-blue-500 flex-1"></div>
-                <div class="h-2 bg-red-500 flex-1"></div>
-                <div class="h-2 bg-yellow-500 flex-1"></div>
-                <div class="h-2 bg-blue-500 flex-1"></div>
-                <div class="h-2 bg-green-500 flex-1"></div>
-                <div class="h-2 bg-red-500 flex-1"></div>
-            </div>
-        </div>
-    
+{% block body %}
+
+
+
+<div class="container mx-auto pt-32">
+    <form class="justify-center flex" action="{{url_for('search')}}" method="get" >
+        <input class="border-2 p-3 w-80 lg:w-96 border-gray-400 rounded-lg shadow-lg focus:border-blue-600" placeholder="수업이름, 교수명, 회원아이디를 통해 검색하세요"" type="text" name="q" id="q" required>
+        <button class="border-2 p-3 border-blue-600 rounded-lg" type="submit">검색</button>
+    </form>
+</div>
+
+<div class="-my-2 pt-12 py-2 sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8 lg:px-32 text-lg">
+    <div class="align-middle inline-block min-w-full shadow bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg">
+        <table class="min-w-full">
+            <thead>
+                <tr>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">Rank</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-md font-bold leading-4 text-blue-500 tracking-wider">Name</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-md font-bold leading-4 text-blue-500 tracking-wider">id</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-md font-bold leading-4 text-blue-500 tracking-wider">score</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-md font-bold leading-4 text-blue-500 tracking-wider">Status</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300"></th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                {% for i in range(length) %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                            <div class="flex items-center">
+                                <div>
+                                    <div class="text-md font-semibold leading-5 text-gray-800">{{i+1}}등</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                            <div class="text-md font-semibold leading-5 text-blue-900">{{rank[i].name}}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-md font-semibold leading-5">{{rank[i].id}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-md font-semibold leading-5">{{rank[i].score|round(2)}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-md font-semibold leading-5">
+                            <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                            <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                            <span class="relative text-xs">active</span>
+                        </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm font-semibold leading-5">
+                            <a href="{{url_for('user', userid=rank[i].id)}}"><div class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">유저 프로필 보기</div></a>
+                        </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
+
+{% endblock body %}

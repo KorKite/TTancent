@@ -9,11 +9,9 @@
 </head>
 <body>
     {% include "header.html" %}
-    <div class="pt-32">
-        {% block body %}
-          
-        {% endblock body %}
-    </div>
+    {% block body %}
+        
+    {% endblock body %}
     {% include "footer.html" %}
 </body>
 </html>
