@@ -1,6 +1,6 @@
 from database.database import Databases
 import uuid
-import datetime
+import time
 
 class scoreDB(Databases):
     def __init__(self):
@@ -11,7 +11,7 @@ class scoreDB(Databases):
         self.user_subject_rel = "user_subject"
 
     def return_all(self):
-        query = "SELECT * FROM user_class_rel"
+        query = "SELECT * FROM public.user_class_rel"
         row = self.execute(query)
         print(row)
 
@@ -20,7 +20,7 @@ class scoreDB(Databases):
         """ 
         유저의 평균 반환
         """
-        query = f"SELECT userid, AVG(score) FROM user_class_rel WHERE userid = '{userid}'"
+        query = f"SELECT userid, AVG(score) FROM public.user_class_rel WHERE userid = '{userid}'"
         row = self.execute(query)
         print(row)
 
@@ -30,7 +30,7 @@ class scoreDB(Databases):
         유저별 평균을 묶어서 반환, groupby로 유저 묶고, 해당 그룹의 평균 값을 리턴
         return: 평균 묶어서 반환한 값 
         """
-        query = "SELECT userid, AVG(score) FROM user_class_rel GROUP BY userid ORDER BY AVG(score) DESC"
+        query = "SELECT userid, AVG(score) FROM public.user_class_rel GROUP BY userid ORDER BY AVG(score) DESC"
         row = self.execute(query)
         print(row)
 
@@ -39,7 +39,7 @@ class scoreDB(Databases):
         과목별 평균을 묶어서 반환, groupby로 유저 묶고, 해당 그룹의 평균 값을 리턴
         return: 평균 묶어서 반환한 값 
         """
-        query = "SELECT classid, AVG(score) FROM user_class_rel GROUP BY classid ORDER BY AVG(score) DESC"
+        query = "SELECT classid, AVG(score) FROM public.user_class_rel GROUP BY classid ORDER BY AVG(score) DESC"
         row = self.execute(query)
         print(row)
 
@@ -51,7 +51,7 @@ class scoreDB(Databases):
         해당 과목이 존재하는지 여부를 반환
         return: True, False
         """
-        query = f"SELECT * FROM class where classid = '{classid}'"
+        query = f"SELECT * FROM public.class where classid = '{classid}'"
         row = self.execute(query)
         print(row)
 
@@ -61,7 +61,7 @@ class scoreDB(Databases):
         해당 과목이 존재하는지 여부를 반환
         return: True, False
         """
-        query = f"SELECT * FROM class where generatorid = '{generatorid}'"
+        query = f"SELECT * FROM public.class where generatorid = '{generatorid}'"
         row = self.execute(query)
         print(row)
 
@@ -71,7 +71,7 @@ class scoreDB(Databases):
         해당 과목이 존재하는지 여부를 반환
         return: True, False
         """
-        query = f"SELECT * FROM class where classname = '{classname}'"
+        query = f"SELECT * FROM public.class where classname = '{classname}'"
         row = self.execute(query)
         print(row)
 
@@ -80,7 +80,7 @@ class scoreDB(Databases):
         """
         유저의 점수를 기록
         """
-        # createdAt = time.localtime(time.time())
+        createdAt = time.localtime(time.time())
         id = str(uuid.uuid4().hex)
         query = "INSERT INTO user_class_rel(id, userid, classid, score, createdAt) VALUES (%s, %s, %s, %s, NOW()) RETURNING id"
         stocked = (id, userid, classid, score)
@@ -93,7 +93,7 @@ class scoreDB(Databases):
         유저의 과목별 점수를 검색
         return : 점수 (INT)
         """
-        query = f"SELECT score FROM  user_class_rel WHERE userid = '{userid}' AND classid = '{classid}';"
+        query = f"SELECT score FROM public.user_class_rel WHERE userid = '{userid}' AND classid = '{classid}';"
         row = self.execute(query)
         print(row)
 
@@ -101,7 +101,7 @@ class scoreDB(Databases):
         """
         수업을 들은 유저들을 모아서 유저들의 평균을 내서 보여준다. (새로 짜기)
         """
-        query = f"SELECT classid, avg(score) FROM  user_class_rel WHERE classid = '{classid}';"
+        query = f"SELECT classid, avg(score) FROM public.user_class_rel WHERE classid = '{classid}';"
         row = self.execute(query)
 
         print(row)
@@ -112,7 +112,7 @@ class scoreDB(Databases):
         return : None
         """     
         classid = str(uuid.uuid4().hex)
-        query = "INSERT INTO class(classid, generatorid, classname, isopen) VALUES (%s, %s, %s, %s) RETURNING classid"
+        query = "INSERT INTO public.class(classid, generatorid, classname, isopen) VALUES (%s, %s, %s, %s) RETURNING classid"
         stocked = (classid, generatorid, classname, '1')
         row = self.execute(query, stocked)
         print(row)
