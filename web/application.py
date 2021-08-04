@@ -38,6 +38,12 @@ def class_detail(classid):
     수업의 세부 검색 결과 반환
     DB: 수업 한개에 대한 학생들의 집중도 평균 요약 + classid 
     """
+    class_row = scoreDB().search_subject_classid(classid)[0]
+    class_info = {
+        "generatorid": str(class_row[1]),
+        "classname": str(class_row[2]),
+        "isopen": str(class_row[3])
+    }
     return "Hello World"
 
 @app.route("/generate", methods=["GET","POST"])
@@ -90,14 +96,24 @@ def user(userid):
     """
     유저의 상세 페이지를 보여준다.
     """
+    info_row = userDB().user_search_by_id(userid)[0]
     user_info = {
-        "UserId":"sta076238",
-        "UserName":"고준서",
-        "IsProf":True,
-        "UserEmail": "sta076238@gmail.com",
+        "UserId": str(info_row[0]),
+        "UserName": str(info_row[1]),
+        "IsProf": str(info_row[3]),
+        "UserEmail": str(info_row[4]),
         "rank":30,
         "AvgScore":90
     }
+
+    # user_info = {
+    #     "UserId":"sta076238",
+    #     "UserName":"고준서",
+    #     "IsProf":True,
+    #     "UserEmail": "sta076238@gmail.com",
+    #     "rank":30,
+    #     "AvgScore":90
+    # }
     return render_template("userinfo.html", user=user_info)
 
 if __name__ == "__main__":
