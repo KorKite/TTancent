@@ -155,7 +155,7 @@ def crop_eyes(eyes, img):
 
 
 def image_to_eyes(path):
-  img = cv2.imread(path, cv2.COLOR_BGR2GRAY)
+  img = cv2.imread(path, cv2.COLOR_BGR2GRAY) 
   gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
   rects = detector(gray, 1)
   find = 0

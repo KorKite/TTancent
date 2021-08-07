@@ -19,5 +19,5 @@ time.sleep(1.0)
 
 #pba = PhotoBoothApp(vs, args["output"])
 #print(args['output'])
-pba = PhotoBoothApp(vs, "output")
+pba = PhotoBoothApp(vs, 'C:/Users/USER/Desktop/4-1-2/2021_coco/TTancent/client/output')
 pba.root.mainloop()

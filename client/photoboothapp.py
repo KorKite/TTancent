@@ -146,7 +146,7 @@ class PhotoBoothApp:
                 
         ts = datetime.datetime.now()
         filename = "{}.jpg".format(ts.strftime("%Y-%m-%d_%H-%M-%S"))
-        p = os.path.sep.join((self.outputPath, filename))
+        p = os.path.sep.join((self.outputPath, filename)) 
 
         cv2.imwrite(p, temp_frame.copy())
         print("[INFO] saved {}".format(filename))
@@ -158,7 +158,7 @@ class PhotoBoothApp:
         # load model
         model = Resnext() 
         model.to(torch.device('cpu'))
-        model.load_state_dict(torch.load('C:/Users/USER/Desktop/4-1-2/2021_coco/TTancent/client/model/models/model_eye_0724.tar', map_location=torch.device('cpu'))['state_dict'])
+        model.load_state_dict(torch.load('C:/Users/USER/Desktop/4-1-2/2021_coco/TTancent/client/model/models/model_eye.pt', map_location=torch.device('cpu')))
         
         # take shots
         # path = self.takeShots()
