@@ -4,9 +4,14 @@
 
 
 <div class="container mx-auto pt-32">
-    <form class="justify-center flex" action="{{url_for('search')}}" method="get" >
-        <input class="border-2 p-3 w-80 lg:w-96 border-gray-400 rounded-lg shadow-lg focus:border-blue-600" placeholder="수업이름, 교수명, 회원아이디를 통해 검색하세요"" type="text" name="q" id="q" required>
-        <button class="border-2 p-3 border-blue-600 rounded-lg" type="submit">검색</button>
+    <form class="bg-white shadow p-4 px-24 lg:px-36 flex"  action="{{url_for('search')}}" method="get">
+        <span class="w-auto flex justify-end items-center text-gray-500 p-2">
+            <i class="material-icons text-3xl"></i>
+        </span>
+        <input class="w-full rounded p-2" placeholder="수업이름, 교수명, 회원아이디를 통해 검색하세요" type="text" name="q" id="q" required>
+        <button class="bg-blue-400 hover:bg-blue-300 rounded text-white p-2 pl-4 pr-4">
+                <p class="font-semibold text-xs"  type="submit">Search</p>
+        </button>
     </form>
 </div>
 
@@ -29,23 +34,23 @@
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
                             <div class="flex items-center">
                                 <div>
-                                    <div class="text-md font-semibold leading-5 text-gray-800">{{i+1}}등</div>
+                                    <div class="text-sm font-semibold leading-5 text-gray-800">{{i+1}}등</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                            <div class="text-md font-semibold leading-5 text-blue-900">{{rank[i].name}}</div>
+                            <div class="text-sm font-semibold leading-5 text-blue-900">{{rank[i].username}}</div>
                         </td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-md font-semibold leading-5">{{rank[i].id}}</td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-md font-semibold leading-5">{{rank[i].score|round(2)}}</td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-md font-semibold leading-5">
-                            <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                            <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm font-semibold leading-5">{{rank[i].userid[:8]}}...</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm font-semibold leading-5">{{rank[i].score|round(2)}}</td>
+                        <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm font-semibold leading-5">
+                            <span class="relative inline-block px-3 py-1 font-semibold text-blue-900 leading-tight">
+                            <span aria-hidden class="absolute inset-0 bg-blue-300 opacity-50 rounded-full"></span>
                             <span class="relative text-xs">active</span>
                         </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm font-semibold leading-5">
-                            <a href="{{url_for('user', userid=rank[i].id)}}"><div class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none">유저 프로필 보기</div></a>
+                        <td class="py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm font-semibold leading-5">
+                            <a href="{{url_for('user', userid=rank[i].userid)}}"><div class="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 v-10 hover:text-white focus:outline-none">유저 프로필 보기</div></a>
                         </td>
                 </tr>
                 {% endfor %}

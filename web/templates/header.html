@@ -2,6 +2,16 @@
         <div class="pl-10">
             <a href="{{url_for('index')}}"><img class="h-14" src="{{url_for('static', filename='img/main.png')}}" alt="main logo" ></a>
         </div>
+        {% if session["userid"] %}
+        <div class="flex pr-5">
+            <a href="{{url_for('user', userid = session['userid'])}}"><div class="p-5">
+                <p class="font-bold	hover:text-blue-800">유저 프로필</p>
+            </div></a>
+            <a href="{{url_for('logout')}}"><div class="p-5">
+                <p class="font-bold	hover:text-blue-800">로그아웃</p>
+            </div></a>
+        </div>
+        {% else %}
         <div class="flex pr-5">
             <a href="{{url_for('signin')}}"><div class="p-5">
                 <p class="font-bold	hover:text-blue-800">회원가입</p>
@@ -10,4 +20,5 @@
                 <p class="font-bold	hover:text-blue-800">로그인</p>
             </div></a>
         </div>
+        {% endif %}
     </div>

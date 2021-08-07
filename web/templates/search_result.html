@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="pt-24">
+{% if result.state %}
+    {% for res in result.result %}
+        <div class="border-2 mx-6 lg:mx-24 xl:mx-32 bg-white p-6 shadow-lg rounded-lg flex justify-between items-center mb-4">
+            <div class="flex">
+            <div>
+                <h1 class="text-xl font-medium text-gray-700">{{res[1]}}</h1>
+                <div class="flex">
+                    <p class="text-gray-600 mr-2">생성자: </p>
+                    <a href="{{url_for('user', userid=res[3])}}"><p class="text-blue-800 underline hover:text-blue-500">{{res[2]}}</p></a>
+                </div>
+            </div>
+            </div>
+            <a href="{{url_for('class_detail', classid=res[0])}}">
+            <button class="bg-blue-500 hover:opacity-75 text-white rounded-full px-8 py-2">
+            수업정보 확인하기
+            </button></a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>검색 결과가 없습니다.</p>
+{% endif %}
+</div>
+
+{% endblock body %}

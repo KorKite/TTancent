@@ -9,7 +9,7 @@
             <div class="bg-white p-3 border-t-4 border-green-400">
                 <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{user.UserName}}</h1>
                 <h3 class="text-gray-600 text-xs text-semibold leading-6">{{user.UserEmail}}</h3>
-                <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">집중력을 가지고 수업을 듣는 학생입니다.</p>
+                <p class="text-sm text-gray-500 hover:text-gray-600 leading-6">유저 정보를 확인해보세요.</p>
                 <ul
                     class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                     <li class="items-center py-3">
@@ -50,11 +50,11 @@
                         </div>
                         <div class="grid grid-cols-2">
                             <div class="px-4 py-2 font-semibold">유저번호</div>
-                            <div class="px-4 py-2">{{user.UserId}}</div>
+                            <div class="px-4 py-2">{{user.UserId[:8]}}...</div>
                         </div>
                         <div class="grid grid-cols-2">
                             <div class="px-4 py-2 font-semibold">현재까지의 집중력 평균</div>
-                            <div class="px-4 py-2">{{user.AvgScore|round(2)}}점</div>
+                            <div class="px-4 py-2">{{user.AvgScore}}점</div>
                         </div>
                         <div class="grid grid-cols-2">
                             <div class="px-4 py-2 font-semibold">전체 랭킹</div>
@@ -65,5 +65,8 @@
             </div>
         </div>
     </div>
+    {% if session["userid"] == user.UserId and session["isprof"] == True %}
+                <a href="{{url_for('generate')}}"><div class=" bg-indigo-800 p-2 hover:bg-indigo-500 shadow-lg text-white text-center mx-32 rounded-lg lg:mx-72 xl:mx-80">수업 생성하기</div></a>
+    {% endif %}
 </div>
 {% endblock body %}

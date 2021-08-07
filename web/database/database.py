@@ -6,6 +6,7 @@ with open("database/dbinfo.json", "r") as f:
 
 class Databases():
     def __init__(self):
+        print("✅ DATABASE Sucessfully Run")
         self.db = psycopg2.connect(host=dbinfo["host"], dbname=dbinfo["dbname"],user=dbinfo["user"],  password=dbinfo["password"],port=dbinfo["port"])
         self.cursor = self.db.cursor()
 

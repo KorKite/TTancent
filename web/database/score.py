@@ -20,9 +20,10 @@ class scoreDB(Databases):
         """ 
         유저의 평균 반환
         """
-        query = f"SELECT userid, AVG(score) FROM public.user_class_rel WHERE userid = '{userid}'"
+        query = f"SELECT * FROM public.userrank WHERE userid = '{userid}'"
         row = self.execute(query)
         print(row)
+        return row
 
 
     def user_Rank(self):
@@ -30,9 +31,9 @@ class scoreDB(Databases):
         유저별 평균을 묶어서 반환, groupby로 유저 묶고, 해당 그룹의 평균 값을 리턴
         return: 평균 묶어서 반환한 값 
         """
-        query = "SELECT userid, AVG(score) FROM public.user_class_rel GROUP BY userid ORDER BY AVG(score) DESC"
+        query = "SELECT public.userinfo.userid,username, AVG(score) FROM public.user_class_rel, public.userinfo WHERE  public.userinfo.userid = public.user_class_rel.userid  GROUP BY public.userinfo.userid ORDER BY AVG(score) DESC"
         row = self.execute(query)
-        print(row)
+        return row
 
     def class_Rank(self):
         """
@@ -101,10 +102,22 @@ class scoreDB(Databases):
         """
         수업을 들은 유저들을 모아서 유저들의 평균을 내서 보여준다. (새로 짜기)
         """
-        query = f"SELECT classid, avg(score) FROM public.user_class_rel WHERE classid = '{classid}';"
+        query = f"SELECT classid, avg(score) FROM public.user_class_rel WHERE classid = '{classid}' GROUP BY classid ;"
         row = self.execute(query)
+        
+        return row
+    
+    def class_search(self, que):
+        query = f"SELECT c.classid, c.classname, u.username, u.userid FROM public.class as c JOIN public.userinfo as u ON c.generatorid = u.userid where username ilike '%%{que}%%' OR classname ilike '%%{que}%%'"
+        print(query)
+        row = self.execute(query)
+        return row
 
-        print(row)
+    def class_detail(self, classid):
+        query = f"SELECT c.classid, c.classname, u.username, u.userid, u.useremail FROM public.class as c JOIN public.userinfo as u ON c.generatorid = u.userid where classid ='{classid}'"
+        row = self.execute(query)
+        return row
+
 
     def generate_class(self, generatorid, classname):   
         """
@@ -115,8 +128,8 @@ class scoreDB(Databases):
         query = "INSERT INTO public.class(classid, generatorid, classname, isopen) VALUES (%s, %s, %s, %s) RETURNING classid"
         stocked = (classid, generatorid, classname, '1')
         row = self.execute(query, stocked)
-        print(row)
         self.commit()
+        return row
         
 
 if __name__ == "__main__":

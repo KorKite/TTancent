@@ -1,14 +1,9 @@
 from database.database import Databases
-import uuid, bcrypt
+import uuid
+from database.hasher import hash_password, verify_password
 
 # import pandas as pd
 
-
-def hashing(plain_text_password):
-    return bcrypt.hashpw(plain_text_password, bcrypt.gensalt())
-
-def check(org, hashed):
-    return bcrypt.checkpw(org, hashed)
 
 class userDB(Databases):
     def __init__(self):
@@ -17,23 +12,36 @@ class userDB(Databases):
     def signin(self, username, password, prof, email):
         userid = str(uuid.uuid4().hex)
         query = "INSERT INTO USERINFO(userid, username, userpassword, isprof, useremail) VALUES (%s, %s, %s, %s, %s) RETURNING userid"
-        password = hashing(password.encode('utf-8'))
+        password = hash_password(password)
         print(password)
         stocked = (userid , username, password, prof, email)
         row = self.execute(query, stocked)
         print(row)
         self.commit()
 
-    def user_search_by_id(self,userid):
-        query = f"SELECT * FROM USERINFO WHERE userid = '{userid}'; "
+    def signin_valid(self, useremail):
+        query = f"SELECT * FROM USERINFO WHERE useremail = '{useremail}'; "
         row = self.execute(query)
-        print(row)
+        return row
 
-    def user_password_get(self,userid):
-        query = f"SELECT userpassword FROM USERINFO WHERE userid = '{userid}'; "
-        row = self.execute(query)[0][0]
-        print(row)
+    def user_search_by_id(self,userid):
+        query = f"SELECT useremail, username, IsProf FROM USERINFO WHERE userid = '{userid}'; "
+        row = self.execute(query)
+        return row
 
+    def login_valid(self,useremail,password):
+        query = f"SELECT userid, userpassword,username,isprof FROM USERINFO WHERE useremail = '{useremail}'; "
+        row = self.execute(query)
+        if len(row)==0:
+            return {"valid":False}
+        else:
+            userid, hashed_pass, username,isprof = row[0]
+            print(hashed_pass)
+            print(verify_password(password, hashed_pass))
+            if not verify_password(hashed_pass, password):
+                return {"valid":False}
+            else:
+                return {"valid":True, "userid":userid, "username":username, "isprof":isprof}
 
 if __name__ == "__main__":
     udb = userDB()
