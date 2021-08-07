@@ -7,15 +7,17 @@ import argparse
 import time
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-o", "--output", required=True,
-	help="path to output directory to store snapshots")
+#ap.add_argument("-o", "--output", required=True, default = 'output',
+#	help="path to output directory to store snapshots")
 ap.add_argument("-p", "--picamera", type=int, default=-1,
 	help="whether or not the Raspberry Pi camera should be used")
 args = vars(ap.parse_args())
 
 print("[INFO] warming up camera...")
 vs = VideoStream(usePiCamera=args["picamera"] > 0).start()
-time.sleep(2.0)
+time.sleep(1.0)
 
-pba = PhotoBoothApp(vs, args["output"])
+#pba = PhotoBoothApp(vs, args["output"])
+#print(args['output'])
+pba = PhotoBoothApp(vs, "output")
 pba.root.mainloop()
