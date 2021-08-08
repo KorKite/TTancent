@@ -15,6 +15,19 @@ from model.test import test
 import torch
 from queue import Queue
 
+from database.write import writer
+
+wdb = writer()
+
+class Session:
+    def __init__(self, email, userid):
+        self.email = email
+        self.userid = userid
+        self.valid = True
+
+    def __str__(self):
+        return self.userid
+
 class PhotoBoothApp:
     def __init__(self, vs, outputPath):
         self.vs = vs
@@ -31,7 +44,7 @@ class PhotoBoothApp:
         def get_text():
             text = entry.get()
             print(text)
-            label.config(text="현재 수업 코드: "+str(eval(text)))
+            label.config(text="현재 수업 코드: "+str(text))
             with open(self.outputPath+"/class_code.txt", "w") as file:
                 file.write(text)
                 file.close()
@@ -158,7 +171,7 @@ class PhotoBoothApp:
         # load model
         model = Resnext() 
         model.to(torch.device('cpu'))
-        model.load_state_dict(torch.load('C:/Users/USER/Desktop/4-1-2/2021_coco/TTancent/client/model/models/model_eye.pt', map_location=torch.device('cpu')))
+        model.load_state_dict(torch.load('./model/models/model_eye.pt', map_location=torch.device('cpu')))
         
         # take shots
         # path = self.takeShots()
@@ -168,6 +181,15 @@ class PhotoBoothApp:
 
         
         scores = test(path, model)
+        if -1 in scores:
+            score = -1
+
+        else:
+            score = sum(scores)/2
+
+        wdb.write_user_score(userid, classid, score)     
+
+        
         print('[Score] for left eye {:.2f}'.format(scores[0]))
         print('[Score] for right eye {:.2f}'.format(scores[1]))
 

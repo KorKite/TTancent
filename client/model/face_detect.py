@@ -127,7 +127,7 @@ FACIAL_LANDMARKS_INDEXES = OrderedDict([
 ])
 facial_features_cordinates = {} 
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('C:/Users/USER/Desktop/4-1-2/2021_coco/TTancent/client/model/models/shape_predictor_68_face_landmarks.dat')
+predictor = dlib.shape_predictor('./model/models/shape_predictor_68_face_landmarks.dat')
 
 
 
