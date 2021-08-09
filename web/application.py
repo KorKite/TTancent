@@ -1,5 +1,5 @@
 # Python Library
-from flask import Flask, url_for, redirect, render_template, request, flash, session
+from flask import Flask, url_for, redirect, render_template, request, flash, session, jsonify
 
 # Our Custom Database Module
 from database.score import scoreDB
@@ -31,7 +31,6 @@ def search():
     """
     que = request.args.get("q")
     result = sdb.class_search(que) 
-    # SQL 쿼리 다시짜야해...
     if len(result) == 0:
         result = {
             "state":False
@@ -63,7 +62,21 @@ def class_detail(classid):
         "generatoremail":email,
         "avg":avg_score
     }
-    return render_template("classinfo.html", result=result)
+    if session["userid"] == generatorid:
+        summary = sdb.std_summary(classid)
+    else: 
+        summary = []
+        
+    return render_template("classinfo.html", result=result, summary=summary)
+
+@app.route("/delete_class/<string:classid>")
+def delete_class(classid):
+    valid = sdb.delete_class(classid, session["userid"])
+    if not valid:
+        flash("삭제할 수 있는 권한이 없습니다.")
+        return redirect(url_for("class_detail", classid=classid))
+
+    return redirect(url_for("user", userid=session["userid"]))
 
 @app.route("/generate", methods=["GET","POST"])
 def generate():
@@ -86,12 +99,32 @@ def generate():
     else:
         return redirect(url_for("index"))
 
-@app.route("/summary")
-def summary():
+@app.route("/clientvalid/<string:useremail>/<string:password>")
+def client_valid(useremail=None, password=None):
     """
-    수업별 요약보기
+    for client api server
     """
-    return "Hello World"
+    if useremail == None or password == None:
+        valid_form = {
+            "issucess":False,
+            "reason":"There is no user email or password input",
+            "code":1
+        }
+    else:
+        valid = udb.login_valid(useremail, password)
+        if not valid["valid"]:
+            valid_form = {
+                "issucess":False,
+                "reason": valid["reason"],
+                "code":valid["code"]
+            }
+        else:
+            valid_form ={
+                "issucess":True,
+                "code":0,
+                "userid":valid["userid"]
+            }
+    return jsonify(valid_form) 
 
 
 
@@ -155,6 +188,16 @@ def user(userid):
     """
     get_db = udb.user_search_by_id(userid)
     avg = sdb.search_AVG(userid)
+    result = sdb.my_classes(userid) 
+    if len(result) == 0:
+        result = {
+            "state":False
+        }
+    else:
+        result = {
+            "state": True,
+            "result":result
+        }
     if len(avg) == 0:
         avg = 0
     else:
@@ -168,8 +211,8 @@ def user(userid):
         "rank":30,
         "AvgScore":avg
     }
-    return render_template("userinfo.html", user=user_info)
+    return render_template("userinfo.html", user=user_info, result=result)
 
 if __name__ == "__main__":
     print("✅Server Run on: http://junxxuh.gabia.io")
-    app.run(port=8080, debug=True, host="0.0.0.0")
+    app.run(port=8080, debug=False, host="0.0.0.0")

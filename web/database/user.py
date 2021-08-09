@@ -33,13 +33,13 @@ class userDB(Databases):
         query = f"SELECT userid, userpassword,username,isprof FROM USERINFO WHERE useremail = '{useremail}'; "
         row = self.execute(query)
         if len(row)==0:
-            return {"valid":False}
+            return {"valid":False, "reason": "There is no such email", "code":3}
         else:
             userid, hashed_pass, username,isprof = row[0]
             print(hashed_pass)
             print(verify_password(password, hashed_pass))
             if not verify_password(hashed_pass, password):
-                return {"valid":False}
+                return {"valid":False, "reason": "Password is Wrong", "code":2}
             else:
                 return {"valid":True, "userid":userid, "username":username, "isprof":isprof}
 

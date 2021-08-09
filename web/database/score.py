@@ -15,7 +15,6 @@ class scoreDB(Databases):
         row = self.execute(query)
         print(row)
 
-
     def search_AVG(self,userid):
         """ 
         유저의 평균 반환
@@ -45,27 +44,6 @@ class scoreDB(Databases):
         print(row)
 
 
-
-    def search_subject_classid(self, classid):
-        """
-        과목id
-        해당 과목이 존재하는지 여부를 반환
-        return: True, False
-        """
-        query = f"SELECT * FROM public.class where classid = '{classid}'"
-        row = self.execute(query)
-        print(row)
-
-    def search_subject_professor(self, generatorid):
-        """
-        교수 id
-        해당 과목이 존재하는지 여부를 반환
-        return: True, False
-        """
-        query = f"SELECT * FROM public.class where generatorid = '{generatorid}'"
-        row = self.execute(query)
-        print(row)
-
     def search_subject_classname(self, classname):
         """
         과목명
@@ -89,6 +67,22 @@ class scoreDB(Databases):
         print(row)
         self.commit()
 
+    def delete_class(self, classid, userid):
+        class_generator = self.execute(f"SELECT generatorid FROM class WHERE classid='{classid}'")[0][0]
+        if userid != class_generator:
+            return False
+        else:
+            query = f"DELETE FROM class WHERE classid = '{classid}' RETURNING classid"
+            row = self.execute(query)
+            self.commit()
+            return True
+
+    def std_summary(self, classid):
+        query = f"SELECT u.userid,u.username,u.useremail, AVG(score) as avgs FROM public.user_class_rel as r JOIN public.userinfo as u ON r.userid = u.userid WHERE r.classid='{classid}' GROUP BY u.userid ORDER BY avgs DESC;"
+        row = self.execute(query)
+        
+        return row
+
     def search_user_subject(self, userid, classid):
         """
         유저의 과목별 점수를 검색
@@ -109,6 +103,12 @@ class scoreDB(Databases):
     
     def class_search(self, que):
         query = f"SELECT c.classid, c.classname, u.username, u.userid FROM public.class as c JOIN public.userinfo as u ON c.generatorid = u.userid where username ilike '%%{que}%%' OR classname ilike '%%{que}%%'"
+        print(query)
+        row = self.execute(query)
+        return row
+
+    def my_classes(self, userid):
+        query = f"SELECT c.classid, c.classname, u.username, u.userid FROM public.class as c JOIN public.userinfo as u ON c.generatorid = u.userid WHERE u.userid = '{userid}'"
         print(query)
         row = self.execute(query)
         return row

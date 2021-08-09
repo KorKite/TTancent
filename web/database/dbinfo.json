@@ -1,0 +1,7 @@
+{
+    "host":"db.junxxuh.gabia.io", 
+    "dbname":"dbjunxxuh",
+    "user":"junxxuh", 
+    "password":"ttancent2021", 
+    "port":5432
+}
