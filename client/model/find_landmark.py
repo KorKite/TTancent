@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream:client/model/face_detect.py
 from collections import OrderedDict
 import numpy as np
 import cv2
@@ -128,7 +127,7 @@ FACIAL_LANDMARKS_INDEXES = OrderedDict([
 ])
 facial_features_cordinates = {} 
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('./model/models/shape_predictor_68_face_landmarks.dat')
+predictor = dlib.shape_predictor('./client/model/models/shape_predictor_68_face_landmarks.dat')
 
 
 
@@ -177,7 +176,7 @@ def image_to_eyes(path):
     return re_crop, le_crop
   else:
     return -1
-=======
+ 
 from collections import OrderedDict
 import numpy as np
 import cv2
@@ -355,5 +354,4 @@ def image_to_eyes(img):
     le_crop, (l_x1, l_y1, l_x2, l_y2) = crop_eyes(le, img)
     return re_crop, le_crop, [r_x1, r_y1, r_x2, r_y2], [l_x1, l_y1, l_x2, l_y2]
   else:
-    return None
->>>>>>> Stashed changes:client/model/find_landmark.py
+    return None 

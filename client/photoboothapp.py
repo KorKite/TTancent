@@ -15,11 +15,10 @@ from model.get_score import TTancent
 import torch
 from queue import Queue
 import numpy as np
+ 
+# from database.write import writer
 
-<<<<<<< Updated upstream
-from database.write import writer
-
-wdb = writer()
+# wdb = writer()
 
 class Session:
     def __init__(self, email, userid):
@@ -29,11 +28,9 @@ class Session:
 
     def __str__(self):
         return self.userid
+ 
 
-=======
-
-COLORS = [(255, 0, 0)]
->>>>>>> Stashed changes
+COLORS = [(255, 0, 0)] 
 class PhotoBoothApp:
     def __init__(self, vs, outputPath):
         self.vs = vs
@@ -52,22 +49,18 @@ class PhotoBoothApp:
 
         def get_text():
             text = entry.get()
-            print(text)
-<<<<<<< Updated upstream
+            print(text) 
             label.config(text="현재 수업 코드: "+str(text))
             with open(self.outputPath+"/class_code.txt", "w") as file:
                 file.write(text)
                 file.close()
             
-=======
+ 
             # label.config(text="현재 수업 코드: "+str(eval(text)))
             # with open(self.outputPath+"/class_code.txt", "w") as file:
             #     file.write(text)
             #     file.close()
-        
-        
->>>>>>> Stashed changes
-
+         
         q = Queue()
 
         self.stopEvent = threading.Event()
@@ -189,35 +182,33 @@ class PhotoBoothApp:
     #     # print("[INFO] saved {}".format(filename))
     #     self.score(temp_frame)
 
-
-
-<<<<<<< Updated upstream
-    def ttancent(self, path):
-        # load model
-        model = Resnext() 
-        model.to(torch.device('cpu'))
-        model.load_state_dict(torch.load('./model/models/model_eye.pt', map_location=torch.device('cpu')))
+ 
+    # def ttancent(self, path):
+    #     # load model
+    #     model = Resnext() 
+    #     model.to(torch.device('cpu'))
+    #     model.load_state_dict(torch.load('./model/models/model_eye.pt', map_location=torch.device('cpu')))
         
-        # take shots
-        # path = self.takeShots()
-        # path = 'C:/Users/USER/Desktop/4-1-2/2021_coco/TTancent/client/output/2021-08-06_18-24-19.jpg'
-        # path = 'C:/Users/USER/Desktop/4-1-2/2021_coco/TTancent/client/output/19_0_3_20170119152737588.jpg'
-        # print(test(path, model))
+    #     # take shots
+    #     # path = self.takeShots()
+    #     # path = 'C:/Users/USER/Desktop/4-1-2/2021_coco/TTancent/client/output/2021-08-06_18-24-19.jpg'
+    #     # path = 'C:/Users/USER/Desktop/4-1-2/2021_coco/TTancent/client/output/19_0_3_20170119152737588.jpg'
+    #     # print(test(path, model))
 
         
-        scores = test(path, model)
-        if -1 in scores:
-            score = -1
+    #     scores = test(path, model)
+    #     if -1 in scores:
+    #         score = -1
 
-        else:
-            score = sum(scores)/2
+    #     else:
+    #         score = sum(scores)/2
 
-        wdb.write_user_score(userid, classid, score)     
+    #     wdb.write_user_score(userid, classid, score)     
 
         
-        print('[Score] for left eye {:.2f}'.format(scores[0]))
-        print('[Score] for right eye {:.2f}'.format(scores[1]))
-=======
+    #     print('[Score] for left eye {:.2f}'.format(scores[0]))
+    #     print('[Score] for right eye {:.2f}'.format(scores[1]))
+ 
     # def score(self, img): 
     #     crt_score, avg_score = self.ttancent.ttancent_score(img)
     #     print('[Current Score] {:.2f}'.format(crt_score))
@@ -225,8 +216,7 @@ class PhotoBoothApp:
     #     # scores = test(path, model)
     #     # print('[Score] for left eye {:.2f}'.format(scores[0]))
     #     # print('[Score] for right eye {:.2f}'.format(scores[1]))
->>>>>>> Stashed changes
-
+ 
  
 
     def onClose(self):
