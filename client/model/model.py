@@ -1,6 +1,7 @@
 import torchvision.models as models 
 import torch.nn as nn
 import torch
+from facenet_pytorch import MTCNN
 
 class Resnext(nn.Module):
     def __init__(self):
@@ -18,3 +19,11 @@ class Resnext(nn.Module):
         x = self.softmax(x)
         return x
  
+ 
+# class MTCNN(nn.Module):
+#     def __init__(self):
+#         super(MTCNN, self).__init__()
+#         self.mtcnn = MTCNN(select_largest=True)
+    
+#     def forward(self, x):
+#         return self.mtcnn(x)
