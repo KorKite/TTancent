@@ -1,7 +1,7 @@
 import requests
 
-def login_valid(useremail, password):
-    form = requests.get(f"http://junxxuh.gabia.io/clientvalid/{useremail}/{password}").json()
+def login_valid(useremail, password, classid):
+    form = requests.get(f"http://junxxuh.gabia.io/clientvalid/{useremail}/{password}/{classid}").json()
     return form 
 
 

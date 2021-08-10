@@ -15,26 +15,17 @@ from model.get_score import TTancent
 import torch
 from queue import Queue
 import numpy as np
+from database.write import writer
  
-# from database.write import writer
 
-# wdb = writer()
 
-class Session:
-    def __init__(self, email, userid):
-        self.email = email
-        self.userid = userid
-        self.valid = True
-
-    def __str__(self):
-        return self.userid
- 
+classid = None
 
 COLORS = [(255, 0, 0)] 
 class PhotoBoothApp:
-    def __init__(self, vs, outputPath):
-        self.vs = vs
-        self.outputPath = outputPath
+    def __init__(self, userid):
+        self.vs = cv2.VideoCapture(0)
+        # self.outputPath = outputPath
         self.frame = None
         self.thread = None
         # self.thread2 = None
@@ -43,18 +34,24 @@ class PhotoBoothApp:
         self.root = tki.Tk()
         self.root.resizable(False, False)
         self.panel = None
+        self.end = 0
+        self.userid = userid
+        self.wdb = writer()
+
+        
 
         self.ttancent = TTancent()
 
 
-        def get_text():
-            text = entry.get()
-            print(text) 
-            label.config(text="현재 수업 코드: "+str(text))
-            with open(self.outputPath+"/class_code.txt", "w") as file:
-                file.write(text)
-                file.close()
-            
+        #def get_text():
+            #global classid
+            #text = entry.get()
+            #classid = text
+            #label.config(text="현재 수업 코드: "+str(text))
+            #with open("class_code.txt", "w") as file:
+            #    file.write(text)
+            #    file.close()
+            #return text
  
             # label.config(text="현재 수업 코드: "+str(eval(text)))
             # with open(self.outputPath+"/class_code.txt", "w") as file:
@@ -63,25 +60,26 @@ class PhotoBoothApp:
          
         q = Queue()
 
-        self.stopEvent = threading.Event()
-        self.thread = threading.Thread(target=self.videoLoop, args=(q,))
-        self.thread.start()
+        self.stopEvent = threading.Event()  
 
-        self.thread2 = threading.Thread(target=self.start_video)
-        self.thread2.start()
-        
-        label = tki.Label(self.root, text="Empty Room")
-        label.pack()
+        self.destroyEvent = threading.Event()
+
+        self.thread = threading.Thread(target=self.videoLoop, args=(q,))
+        self.thread.daemon = True
+        self.thread.start()
+ 
+        label = tki.Label(self.root, text="Empty Room", bg="navy",fg="white")
+        label.pack(fill="x")
 
         frame_1 = tki.Frame(self.root)
 
-        send_btn = tki.Button(frame_1, text = "Send", command = get_text, relief="groove")
-        send_btn.pack(side="right", padx=10, pady=5)
+        #send_btn = tki.Button(frame_1, text = "Send", command = get_text, relief="groove")
+        #send_btn.pack(side="right", padx=10, pady=5)
 
 
         textEntry = tki.StringVar()
         entry = tki.Entry(frame_1, textvariable = textEntry)      
-        textEntry.set("수업 코드를 입력하세요.")
+        textEntry.set("수업에 접속했습니다.")
 
         entry.pack(side="right", fill="x", expand=1, padx=10, pady=5)
 
@@ -90,10 +88,10 @@ class PhotoBoothApp:
 
         frame_2 = tki.Frame(self.root)
 
-        start_btn = tki.Button(frame_2, text = "Start", command = self.start_video(), relief="groove")
+        start_btn = tki.Button(frame_2, text = "Start", command = self.onStart, relief="groove")
         start_btn.pack(side="left", fill="x", padx=10, pady=5, ipadx=55)
 
-        end_btn = tki.Button(frame_2, text = "End", command = self.end_video, relief="groove")
+        end_btn = tki.Button(frame_2, text = "End", command = self.onClose, relief="groove")
         end_btn.pack(fill="x", padx=10, pady=5)
 
         frame_2.pack(fill="x") 
@@ -106,18 +104,21 @@ class PhotoBoothApp:
         crt_score, avg_score, (re, le), face_coord = self.ttancent.ttancent_score(img)
         return crt_score, avg_score, (re, le), face_coord
 
-    def start_video(self): 
-        pass
-
-    def end_video(self):
-        pass
-            
-
-
     def videoLoop(self, q):
-        try:
-            while not self.stopEvent.is_set(): 
-                self.frame = self.vs.read()
+        try: 
+
+            image = Image.fromarray(np.zeros((225,300,3)).astype('uint8'))
+            image = ImageTk.PhotoImage(image)
+
+            self.panel = tki.Label(image=image)
+            self.panel.image = image
+            self.panel.pack(side="bottom", fill="both", padx=10, pady=10)
+           
+            self.stopEvent.wait()
+
+            scores = []
+            while self.stopEvent.is_set():  
+                ret, self.frame = self.vs.read()
                 self.frame = imutils.resize(self.frame, width=300) 
 
                 image = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)
@@ -135,22 +136,24 @@ class PhotoBoothApp:
 
                 cv2.putText(image, 'Current : '+str(round(crt_score, 3)), (right, head),
                             0, 0.4, COLORS[0], 1)
+                
+                scores.append(crt_score)
+                if len(scores) == 100:
+                    self.wdb.write_user_score(self.userid, classid, int(crt_score*100))
+                    scores = []
+                    
                 cv2.putText(image, 'Average : '+str(round(avg_score, 3)), (right, head+20),
                         0, 0.4, COLORS[0], 1) 
 
                 image = Image.fromarray(image)
                 image = ImageTk.PhotoImage(image)
-                
 
-                if self.panel is None:
-                    self.panel = tki.Label(image=image)
-                    self.panel.image = image
-                    self.panel.pack(side="bottom", fill="both", padx=10, pady=10)
+                self.panel.configure(image=image)
+                self.panel.image = image
 
-                else:
-                    self.panel.configure(image=image)
-                    self.panel.image = image
-
+            print('1st repeat end')
+            self.vs.release()
+                    
 
         except RuntimeError:
             print("[INFO] caught a RuntimeError")
@@ -218,11 +221,24 @@ class PhotoBoothApp:
     #     # print('[Score] for right eye {:.2f}'.format(scores[1]))
  
  
+    def onStart(self):
+        print("[INFO] starting...")  
+        self.stopEvent.set() 
+        
 
-    def onClose(self):
+    def onClose(self): 
+        image = Image.fromarray(np.zeros((225,300,3)).astype('uint8'))
+        image = ImageTk.PhotoImage(image)
+
+        self.panel = tki.Label(image=image)
+        self.panel.image = image
+        self.vs.release()
+        self.panel.destroy()
         print("[INFO] closing...")
-        self.stopEvent.set()
-        self.vs.stop()
-        self.root.quit()
+        self.stopEvent.clear()   
+        self.end = 1
+        time.sleep(5)
+        time.sleep(2)
+        self.root.destroy() 
         
 
