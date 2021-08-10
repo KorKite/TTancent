@@ -5,6 +5,7 @@ from photoboothapp import PhotoBoothApp
 from imutils.video import VideoStream
 import argparse
 import time
+from login import Login
 
 ap = argparse.ArgumentParser()
 #ap.add_argument("-o", "--output", required=True, default = 'output',
@@ -13,11 +14,14 @@ ap.add_argument("-p", "--picamera", type=int, default=-1,
 	help="whether or not the Raspberry Pi camera should be used")
 args = vars(ap.parse_args())
 
-print("[INFO] warming up camera...")
-vs = VideoStream(usePiCamera=args["picamera"] > 0).start()
-time.sleep(1.0)
+
+login = Login()
+
+# print("[INFO] warming up camera...")
+# vs = VideoStream(usePiCamera=args["picamera"] > 0).start()
+# time.sleep(1.0)
 
 #pba = PhotoBoothApp(vs, args["output"])
 #print(args['output'])
-pba = PhotoBoothApp(vs, 'C:/Users/USER/Desktop/4-1-2/2021_coco/TTancent/client/output')
+pba = PhotoBoothApp()
 pba.root.mainloop()
