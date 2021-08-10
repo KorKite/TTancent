@@ -16,6 +16,7 @@ args = vars(ap.parse_args())
 
 
 login = Login()
+userid = login.userid
 
 # print("[INFO] warming up camera...")
 # vs = VideoStream(usePiCamera=args["picamera"] > 0).start()
@@ -23,5 +24,5 @@ login = Login()
 
 #pba = PhotoBoothApp(vs, args["output"])
 #print(args['output'])
-pba = PhotoBoothApp()
+pba = PhotoBoothApp(userid)
 pba.root.mainloop()

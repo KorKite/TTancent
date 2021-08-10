@@ -15,14 +15,15 @@ from model.get_score import TTancent
 import torch
 from queue import Queue
 import numpy as np
+from database.write import writer
  
 
 
- 
+classid = None
 
 COLORS = [(255, 0, 0)] 
 class PhotoBoothApp:
-    def __init__(self):
+    def __init__(self, userid):
         self.vs = cv2.VideoCapture(0)
         # self.outputPath = outputPath
         self.frame = None
@@ -34,18 +35,23 @@ class PhotoBoothApp:
         self.root.resizable(False, False)
         self.panel = None
         self.end = 0
+        self.userid = userid
+        self.wdb = writer()
+
+        
 
         self.ttancent = TTancent()
 
 
-        def get_text():
-            text = entry.get()
-            print(text) 
-            label.config(text="현재 수업 코드: "+str(text))
-            with open(self.outputPath+"/class_code.txt", "w") as file:
-                file.write(text)
-                file.close()
-            
+        #def get_text():
+            #global classid
+            #text = entry.get()
+            #classid = text
+            #label.config(text="현재 수업 코드: "+str(text))
+            #with open("class_code.txt", "w") as file:
+            #    file.write(text)
+            #    file.close()
+            #return text
  
             # label.config(text="현재 수업 코드: "+str(eval(text)))
             # with open(self.outputPath+"/class_code.txt", "w") as file:
@@ -67,13 +73,13 @@ class PhotoBoothApp:
 
         frame_1 = tki.Frame(self.root)
 
-        send_btn = tki.Button(frame_1, text = "Send", command = get_text, relief="groove")
-        send_btn.pack(side="right", padx=10, pady=5)
+        #send_btn = tki.Button(frame_1, text = "Send", command = get_text, relief="groove")
+        #send_btn.pack(side="right", padx=10, pady=5)
 
 
         textEntry = tki.StringVar()
         entry = tki.Entry(frame_1, textvariable = textEntry)      
-        textEntry.set("수업 코드를 입력하세요.")
+        textEntry.set("수업에 접속했습니다.")
 
         entry.pack(side="right", fill="x", expand=1, padx=10, pady=5)
 
@@ -108,7 +114,9 @@ class PhotoBoothApp:
             self.panel.image = image
             self.panel.pack(side="bottom", fill="both", padx=10, pady=10)
            
-            self.stopEvent.wait() 
+            self.stopEvent.wait()
+
+            scores = []
             while self.stopEvent.is_set():  
                 ret, self.frame = self.vs.read()
                 self.frame = imutils.resize(self.frame, width=300) 
@@ -128,6 +136,12 @@ class PhotoBoothApp:
 
                 cv2.putText(image, 'Current : '+str(round(crt_score, 3)), (right, head),
                             0, 0.4, COLORS[0], 1)
+                
+                scores.append(crt_score)
+                if len(scores) == 100:
+                    self.wdb.write_user_score(self.userid, classid, int(crt_score*100))
+                    scores = []
+                    
                 cv2.putText(image, 'Average : '+str(round(avg_score, 3)), (right, head+20),
                         0, 0.4, COLORS[0], 1) 
 

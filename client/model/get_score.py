@@ -7,6 +7,8 @@ from PIL import Image
 import cv2
 import numpy as np
 
+from database.write import writer
+
 
 class TTancent():
     def __init__(self):
@@ -17,7 +19,7 @@ class TTancent():
 
         self.eye_model = Resnext() 
         self.eye_model.to(torch.device('cpu'))
-        self.eye_model.load_state_dict(torch.load('./client/model/models/model_eye_0808.pt', map_location=torch.device('cpu')))
+        self.eye_model.load_state_dict(torch.load('./model/models/model_eye_0808.pt', map_location=torch.device('cpu')))
 
         self.face_model = MTCNN(select_largest=True)
         self.face_model.to(torch.device('cpu')) 
@@ -149,6 +151,7 @@ class TTancent():
         print('[Current] ', self.crt_score)
         print('[Average] ', self.avg_score)
         print()
+        #writer.write_user_score(self.crt_score)
         self.score_list.append(self.crt_score) 
         self.avg_score = sum(self.score_list) / len(self.score_list)
         
