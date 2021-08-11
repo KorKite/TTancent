@@ -84,11 +84,11 @@ class Login:
         email, pwd, cid = self.get_info()
 
         if len(email) == 0:
-            messagebox.showinfo('Warning!', 'E-mail을 한 글자 이상 입력하세요')
+            messagebox.showinfo('Warning!', 'E-mail을 한 글자 이상 입력하세요.')
         elif len(pwd) == 0:
-            messagebox.showinfo('Warning!', 'Password를 한 글자 이상 입력하세요')
+            messagebox.showinfo('Warning!', 'Password를 한 글자 이상 입력하세요.')
         elif len(cid) == 0:
-            messagebox.showinfo('Warning!', 'Class-id를 한 글자 이상 입력하세요')
+            messagebox.showinfo('Warning!', 'Class-id를 한 글자 이상 입력하세요.')
         else:
             valid_form = login_valid(email, pwd, cid)
             if valid_form["issucess"]:
@@ -97,7 +97,7 @@ class Login:
 
             else:
                 message = valid_form["reason"]
-                messagebox.showinfo(message)
+                messagebox.showinfo('Warning!', '해당하는 로그인 정보가 없습니다.')
             
         #print(email, pwd)
         

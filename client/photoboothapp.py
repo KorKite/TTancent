@@ -16,7 +16,7 @@ import torch
 from queue import Queue
 import numpy as np
 from database.write import writer
- 
+from tkinter import messagebox
 
 
 classid = None
@@ -227,12 +227,13 @@ class PhotoBoothApp:
         
 
     def onClose(self): 
-        image = Image.fromarray(np.zeros((225,300,3)).astype('uint8'))
-        image = ImageTk.PhotoImage(image)
-
-        self.panel = tki.Label(image=image)
-        self.panel.image = image
+        # image = Image.fromarray(np.zeros((225,300,3)).astype('uint8'))
+        # image = ImageTk.PhotoImage(image)
+        
+        # self.panel = tki.Label(image=image)
+        # self.panel.image = image
         self.vs.release()
+        messagebox.showinfo('End', '5초 후에 프로그램이 종료됩니다.')
         self.panel.destroy()
         print("[INFO] closing...")
         self.stopEvent.clear()   
