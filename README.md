@@ -1,5 +1,7 @@
 # TTancent
-2021년 코코 프로젝트 대회, 18학번 재학생팀 공동 리파지토리입니다.
+    2021년 코코 프로젝트 대회, 18학번 재학생팀 공동 리파지토리입니다.
+https://github.com/KorKite/dongguk-ontenttion-mentoring에서 영감을 받아 제작하였습니다.
+
 <img width="626" alt="main" src="https://user-images.githubusercontent.com/50725139/126053856-ae725ed9-1a0d-4126-a389-01b092f1206b.png">
 ![발표자료 002](https://user-images.githubusercontent.com/50725139/129192587-68ba3597-0829-4287-8b6f-b5a6fc199258.jpeg)
 ![발표자료 003](https://user-images.githubusercontent.com/50725139/129192600-07ff316d-c7b0-436d-a572-6f96bee55dd3.jpeg)
