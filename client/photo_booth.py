@@ -25,6 +25,6 @@ classname = login.classname
 # time.sleep(1.0)
 
 #pba = PhotoBoothApp(vs, args["output"])
-#print(args['output'])
+#print(args['output']) 
 pba = PhotoBoothApp(userid, classid, classname)
 pba.root.mainloop()

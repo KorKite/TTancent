@@ -7,7 +7,7 @@ from PIL import Image
 import cv2
 import numpy as np
 
-from database.write import writer
+# from database.write import writer
 
 
 class TTancent():

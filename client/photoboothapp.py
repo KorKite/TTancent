@@ -23,7 +23,7 @@ classid = None
 
 COLORS = [(255, 0, 0)] 
 class PhotoBoothApp:
-    def __init__(self, userid, classid):
+    def __init__(self, userid, classid, classname):
         self.vs = cv2.VideoCapture(0)
         # self.outputPath = outputPath
         self.frame = None
@@ -33,6 +33,7 @@ class PhotoBoothApp:
 
         self.root = tki.Tk()
         self.root.resizable(False, False)
+        self.root.iconbitmap('./topticon.ico')
         self.panel = None
         self.end = 0
         self.userid = userid
@@ -69,35 +70,35 @@ class PhotoBoothApp:
         self.thread.daemon = True
         self.thread.start()
  
-        label = tki.Label(self.root, text="Empty Room", bg="navy",fg="white")
+        label = tki.Label(self.root, text=classname, bg="navy",fg="white")
         label.pack(fill="x")
 
-        frame_1 = tki.Frame(self.root)
+        # frame_1 = tki.Frame(self.root)
 
-        #send_btn = tki.Button(frame_1, text = "Send", command = get_text, relief="groove")
-        #send_btn.pack(side="right", padx=10, pady=5)
+        # #send_btn = tki.Button(frame_1, text = "Send", command = get_text, relief="groove")
+        # #send_btn.pack(side="right", padx=10, pady=5)
 
 
-        textEntry = tki.StringVar()
-        entry = tki.Entry(frame_1, textvariable = textEntry)      
-        textEntry.set("수업에 접속했습니다.")
+        # textEntry = tki.StringVar()
+        # entry = tki.Entry(frame_1, textvariable = textEntry)      
+        # textEntry.set("수업에 접속했습니다.")
 
-        entry.pack(side="right", fill="x", expand=1, padx=10, pady=5)
+        # entry.pack(side="right", fill="x", expand=1, padx=10, pady=5)
 
-        frame_1.pack(fill="x")
+        # frame_1.pack(fill="x")
 
 
         frame_2 = tki.Frame(self.root)
 
-        start_btn = tki.Button(frame_2, text = "Start", command = self.onStart, relief="groove")
+        start_btn = tki.Button(frame_2, text = "시작", command = self.onStart, relief="groove")
         start_btn.pack(side="left", fill="x", padx=10, pady=5, ipadx=55)
 
-        end_btn = tki.Button(frame_2, text = "End", command = self.onClose, relief="groove")
+        end_btn = tki.Button(frame_2, text = "종료", command = self.onClose, relief="groove")
         end_btn.pack(fill="x", padx=10, pady=5)
 
         frame_2.pack(fill="x") 
 
-        self.root.wm_title("TTancent")
+        self.root.wm_title("딴집중")
         self.root.wm_protocol("WM_DELETE_WINDOW", self.onClose) 
         self.root.mainloop()
 
@@ -234,7 +235,7 @@ class PhotoBoothApp:
         # self.panel = tki.Label(image=image)
         # self.panel.image = image
         self.vs.release()
-        messagebox.showinfo('End', '5초 후에 프로그램이 종료됩니다.')
+        messagebox.showinfo('종료', '5초 후에 프로그램이 종료됩니다.')
         self.panel.destroy()
         print("[INFO] closing...")
         self.stopEvent.clear()   

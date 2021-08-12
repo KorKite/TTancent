@@ -20,23 +20,24 @@ class Session:
 class Login:
     def __init__(self):
         self.root = tki.Tk()
-        self.root.title("Login")
+        self.root.title("로그인")
         self.root.geometry("255x200") 
         self.root.resizable(False, False)
+        self.root.iconbitmap('./topticon.ico')
         self.userid = None
 
         
-        label = tki.Label(self.root, text="Please enter the details below", bg="navy",fg="white")
+        label = tki.Label(self.root, text="이메일과 비밀번호, Class-id를 입력해주세요.", bg="navy",fg="white")
         label.pack(fill="x")
 
         
         self.frame_sub = tki.Frame(self.root)
         self.frame_1 = tki.Frame(self.frame_sub)
 
-        label_email = tki.Label(self.frame_1, text="E-mail *")
+        label_email = tki.Label(self.frame_1, text="이메일 *")
         label_email.pack()
 
-        label_pwd = tki.Label(self.frame_1, text="Password *")
+        label_pwd = tki.Label(self.frame_1, text="비밀번호 *")
         label_pwd.pack()
 
         label_class = tki.Label(self.frame_1, text="Class-id *")
@@ -69,7 +70,7 @@ class Login:
         self.frame_sub.pack(padx=10, pady=5)
 
 
-        btn_login = tki.Button(self.root, text = "Login", relief="groove", command=self.login)
+        btn_login = tki.Button(self.root, text = "로그인", relief="groove", command=self.login)
         btn_login.pack(fill="x", padx=25, pady=5)
 
         self.root.mainloop()
@@ -99,7 +100,7 @@ class Login:
 
             else:
                 message = valid_form["reason"]
-                messagebox.showinfo('Warning!', '해당하는 로그인 정보가 없습니다.')
+                messagebox.showinfo('Warning!', '입력 정보가 잘못되었습니다.')
             
         #print(email, pwd)
         
