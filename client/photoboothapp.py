@@ -23,7 +23,7 @@ classid = None
 
 COLORS = [(255, 0, 0)] 
 class PhotoBoothApp:
-    def __init__(self, userid):
+    def __init__(self, userid, classid):
         self.vs = cv2.VideoCapture(0)
         # self.outputPath = outputPath
         self.frame = None
@@ -36,6 +36,7 @@ class PhotoBoothApp:
         self.panel = None
         self.end = 0
         self.userid = userid
+        self.classid = classid
         self.wdb = writer()
 
         
@@ -139,7 +140,7 @@ class PhotoBoothApp:
                 
                 scores.append(crt_score)
                 if len(scores) == 100:
-                    self.wdb.write_user_score(self.userid, classid, int(crt_score*100))
+                    self.wdb.write_user_score(self.userid, self.classid, int(crt_score*100))
                     scores = []
                     
                 cv2.putText(image, 'Average : '+str(round(avg_score, 3)), (right, head+20),

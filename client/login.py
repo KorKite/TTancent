@@ -93,6 +93,7 @@ class Login:
             valid_form = login_valid(email, pwd, cid)
             if valid_form["issucess"]:
                 self.userid = valid_form["userid"]
+                self.classid = cid
                 self.root.destroy()
 
             else:
